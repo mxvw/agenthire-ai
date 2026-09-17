@@ -4,20 +4,31 @@ import { motion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatSalary, getCompany, relativeDay, type Job } from "@/lib/data";
+import { formatSalary, getCompany, type Job, relativeDay } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 import { useSavedJobs } from "@/lib/saved";
 import { cn } from "@/lib/utils";
 
-export function MatchRing({ score, size = 44 }: { score: number; size?: number }) {
-  const tone = score >= 80 ? "text-primary" : score >= 60 ? "text-signal" : "text-muted-foreground";
+export function MatchRing(
+  { score, size = 44 }: { score: number; size?: number },
+) {
+  const tone = score >= 80
+    ? "text-primary"
+    : score >= 60
+    ? "text-signal"
+    : "text-muted-foreground";
   return (
     <div
-      className={cn("relative grid shrink-0 place-items-center rounded-full", tone)}
+      className={cn(
+        "relative grid shrink-0 place-items-center rounded-full",
+        tone,
+      )}
       style={{
         width: size,
         height: size,
-        background: `conic-gradient(currentColor ${score * 3.6}deg, color-mix(in oklab, currentColor 14%, transparent) 0deg)`,
+        background: `conic-gradient(currentColor ${
+          score * 3.6
+        }deg, color-mix(in oklab, currentColor 14%, transparent) 0deg)`,
       }}
       aria-label={`Match score ${score} percent`}
     >
@@ -28,7 +39,9 @@ export function MatchRing({ score, size = 44 }: { score: number; size?: number }
   );
 }
 
-export function JobCard({ job, score, index = 0 }: { job: Job; score?: number; index?: number }) {
+export function JobCard(
+  { job, score, index = 0 }: { job: Job; score?: number; index?: number },
+) {
   const company = getCompany(job.companyId);
   const { isSaved, toggle } = useSavedJobs();
   const { t } = useI18n();
@@ -50,7 +63,11 @@ export function JobCard({ job, score, index = 0 }: { job: Job; score?: number; i
           <div className="flex items-start gap-3">
             <div className="min-w-0">
               <h3 className="truncate text-base font-semibold">
-                <Link to="/jobs/$jobId" params={{ jobId: job.id }} className="hover:text-primary">
+                <Link
+                  to="/jobs/$jobId"
+                  params={{ jobId: job.id }}
+                  className="hover:text-primary"
+                >
                   {job.title}
                 </Link>
               </h3>
@@ -79,7 +96,9 @@ export function JobCard({ job, score, index = 0 }: { job: Job; score?: number; i
             <span className="inline-flex items-center gap-1.5">
               <Users className="size-3.5" /> {job.applicants} applicants
             </span>
-            <span className="font-medium text-foreground">{formatSalary(job)}</span>
+            <span className="font-medium text-foreground">
+              {formatSalary(job)}
+            </span>
           </div>
 
           <div className="mt-4 flex items-center gap-2">
